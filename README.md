@@ -1,5 +1,7 @@
-# Just a personal project
+# How to run
 
-## Spacing
+To run the development server:
+`docker-compose -f docker-compose-dev.yml up -d`
 
-Test
+To run a production server:
+`docker-compose -f docker-compose-prod.yml up -d`
