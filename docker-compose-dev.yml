@@ -9,6 +9,15 @@ services:
     volumes:
       - ./frontend/src:/app/src
     env_file: ./env/react.env
+  node-server:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5000:5000"
+    env_file: ./env/node-server.env
+    volumes:
+      - ./backend:/app
   mongodb:
     image: mongo
     ports:
