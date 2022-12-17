@@ -7,6 +7,9 @@ services:
     ports:
       - "80:80"
     env_file: ./env/react.env
+    volumes:
+      - ~/letsencrypt:letsencrypt:ro
+      - ~/letsencrypt/certs:/etc/letsencrypt:ro
   node-server:
     build:
       context: ./backend
