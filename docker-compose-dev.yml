@@ -20,17 +20,10 @@ services:
       - ./backend:/app
   mongodb:
     image: mongo
-    ports:
-      - "27017:27017"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=password
+    env_file: ./env/mongo-db.env
   mongo-express:
     image: mongo-express
     ports:
       - "8080:8081"
-    environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
-      - ME_CONFIG_MONGODB_SERVER=mongodb
+    env_file: ./env/mongo-express.env
     restart: unless-stopped
