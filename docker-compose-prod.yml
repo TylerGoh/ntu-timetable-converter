@@ -7,7 +7,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    env_file: ./env/react-prod.env
     volumes:
       - ~/letsencrypt/test:/letsencrypt/test:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
@@ -15,8 +14,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.prod
-    ports:
-      - "5000:5000"
     env_file: ./env/node-server-prod.env
   mongodb:
     image: mongo

@@ -15,7 +15,7 @@ mongoose.connect(URI, { useNewUrlParse: true }, () => {
 });
 
 
-app.post('/api/test',(req,res)=>{
+app.post('/test',(req,res)=>{
   console.log(req.body.data)
   res.send("received")
 })
