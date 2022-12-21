@@ -19,7 +19,7 @@ function Timetable() {
         while(arr.length) 
             arr2D.push(arr.splice(0,16));
         var data = arr2D[0].map((_, colIndex) => arr2D.map(row => row[colIndex]));
-        axios.post(process.env.REACT_APP_URL + "/api/test", {data}).then(res=>{
+        axios.post(process.env.REACT_APP_URL + "/test", {data}).then(res=>{
             let result = res.data;
             console.log(result)
         })
