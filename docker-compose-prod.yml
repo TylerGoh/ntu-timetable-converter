@@ -7,7 +7,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    env_file: ./env/react.env
+    env_file: ./env/react-prod.env
     volumes:
       - ~/letsencrypt/test:/letsencrypt/test:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro

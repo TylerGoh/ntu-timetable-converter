@@ -8,7 +8,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend/src:/app/src
-    env_file: ./env/react.env
+    env_file: ./env/react-dev.env
   node-server:
     build:
       context: ./backend
