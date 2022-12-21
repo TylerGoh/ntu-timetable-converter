@@ -17,7 +17,7 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - "5000:5000"
-    env_file: ./env/node-server.env
+    env_file: ./env/node-server-prod.env
   mongodb:
     image: mongo
     env_file: ./env/mongo-db.env

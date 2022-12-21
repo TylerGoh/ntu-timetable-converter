@@ -10,16 +10,16 @@ function Timetable() {
         e.preventDefault();
         var text = textInput;
         var arr = text.split('\t');
-        var newArr = [];
+        var arr2D = [];
         while(arr[0] !== "Course")
         {
             if(arr.shift())
                 break;
         }
         while(arr.length) 
-            newArr.push(arr.splice(0,16));
-        console.table(newArr)
-        axios.post(process.env.REACT_APP_URL + "/test", newArr).then(res=>{
+            arr2D.push(arr.splice(0,16));
+        var data = arr2D[0].map((_, colIndex) => arr2D.map(row => row[colIndex]));
+        axios.post(process.env.REACT_APP_URL + "/api/test", {data}).then(res=>{
             let result = res.data;
             console.log(result)
         })
