@@ -6,10 +6,11 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - "80:80"
+      - "443:443"
     env_file: ./env/react.env
     volumes:
-      - ~/letsencrypt:letsencrypt:ro
-      - ~/letsencrypt/certs:/etc/letsencrypt:ro
+      - ~/letsencrypt/test:/letsencrypt/test:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
   node-server:
     build:
       context: ./backend
