@@ -39,6 +39,9 @@ function Register(){
         else{
             console.log("submitted")
         }
+        axios.post("/register",{data:form}).then(res=>{
+            let result = res.data;
+            console.log(result)})
     }
     return(
         <div className='color-overlay d-flex justify-content-center align-items-center'>

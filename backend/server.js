@@ -20,6 +20,11 @@ app.post('/test',(req,res)=>{
   res.send("received");
 })
 
+app.post('/register',(req,res)=>{
+  console.log(req.body.data);
+  res.send("Registered")
+})
+
 function parseDay(string){
   const dayLookup = {
     "Mon":1,

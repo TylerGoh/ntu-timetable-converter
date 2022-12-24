@@ -5,8 +5,10 @@ import Timetable from "./components/Timetable";
 import NavigationBar from "./components/NavigationBar";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import axios from 'axios';
 
 function App() {
+  axios.defaults.baseURL = process.env.REACT_APP_URL;
   return (
     <div className="App">
       <NavigationBar/>
