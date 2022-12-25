@@ -23,7 +23,7 @@ function Timetable() {
         while(arr.length) 
             arr2D.push(arr.splice(0,16));
         var data = arr2D[0].map((_, colIndex) => arr2D.map(row => row[colIndex]));
-        axios.post( "/test", {data}).then(res=>{
+        axios.post( "/timetable", {data}).then(res=>{
             let result = res.data;
             console.log(result)
         })
