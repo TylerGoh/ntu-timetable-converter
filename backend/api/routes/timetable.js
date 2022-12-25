@@ -4,7 +4,7 @@ const router = express.Router();
 router.post('/',(req,res)=>{
     parseTimetable(req.body.data);
     res.status(200).json({message:"Received"});
-  })
+})
   
   
 

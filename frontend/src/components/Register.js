@@ -37,12 +37,11 @@ function Register(){
             setErrors(formErrors)
         }
         else{
-            console.log("submitted")
+            axios.post("/register",form).then(res=>{
+                let result = res.data;
+                console.log(result)})
         }
-        axios.post("/register",{data:form}).then(res=>{
-            let result = res.data;
-            console.log(result)})
-    }
+        }
     return(
         <div className='color-overlay d-flex justify-content-center align-items-center'>
             <Form className='rounded form p-4 p-sm-3'>
