@@ -37,9 +37,14 @@ function Register(){
             setErrors(formErrors)
         }
         else{
-            axios.post("/user/register",form).then(res=>{
-                let result = res.data;
-                console.log(result)})
+            axios.post("/user/register",form).then((res,)=>{
+                console.log(res)
+                }).catch((err)=>{
+                    if(err.response.status === 409)
+                        setErrors({
+                            username: "Username is taken"
+                        })
+                })
         }
         }
     return(
