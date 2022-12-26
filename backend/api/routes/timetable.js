@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const checkAuth = require('../middleware/check-auth')
 
-router.post('/',(req,res)=>{
+router.post('/', checkAuth, (req,res)=>{
     parseTimetable(req.body.data);
     res.status(200).json({message:"Received"});
 })

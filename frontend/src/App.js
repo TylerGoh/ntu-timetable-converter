@@ -9,6 +9,7 @@ import axios from 'axios';
 
 function App() {
   axios.defaults.baseURL = process.env.REACT_APP_URL;
+  axios.defaults.withCredentials = true;
   return (
     <div className="App">
       <NavigationBar/>

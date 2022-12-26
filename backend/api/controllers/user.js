@@ -34,6 +34,8 @@ exports.user_signup = (req, res, next) => {
 }
 
 exports.user_login = (req, res, next)=>{
+    if(req.session.username)
+        console.log(req.session.username)
     User.find({username: req.body.username})
         .exec()
         .then(user=>{
@@ -53,6 +55,8 @@ exports.user_login = (req, res, next)=>{
                         message: 'Auth failed'
                     });
                 }
+                req.session._id = user[0]._id
+                req.session.username = user[0].username;
                 return res.status(200).json({
                     message: 'Auth successful'
                 })

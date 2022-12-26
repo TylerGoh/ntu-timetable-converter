@@ -25,6 +25,7 @@ function Login(){
         axios.post("/user/login",form).then((res)=>{
             console.log(res)
             }).catch((err)=>{
+                console.log(err)
                 if(err.response.status === 401)
                     setErrors({
                         username: "Invalid username or password"
