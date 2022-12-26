@@ -19,9 +19,8 @@ services:
       - ./backend:/app
   mongo:
     image: mongo
-    env_file: ./env/mongo-db.env
-    ports:
-      - "27017:27017"
+    volumes: 
+      - /mongodb/data:/data/db
   mongo-express:
     image: mongo-express
     ports:

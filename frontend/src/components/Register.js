@@ -37,7 +37,7 @@ function Register(){
             setErrors(formErrors)
         }
         else{
-            axios.post("/register",form).then(res=>{
+            axios.post("/user/register",form).then(res=>{
                 let result = res.data;
                 console.log(result)})
         }

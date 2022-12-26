@@ -15,6 +15,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile.prod
     env_file: ./env/node-server-prod.env
-  mongodb:
+  mongo:
     image: mongo
-    env_file: ./env/mongo-db.env
+    volumes: 
+      - /mongodb/data:/data/db
