@@ -5,7 +5,7 @@ exports.createCSV = (req,res,next) => {
     var data = parseTimetable(req.body.data);
     var ics = generateICS(data)
     res.set("Content-Disposition", "attachment; filename=test.ics");
-    res.set('Content-Type', 'text/plain');
+    res.set({'content-type': 'text/calendar; charset=utf-8'});
     res.end(ics)
 }
 
@@ -13,6 +13,7 @@ exports.createCSV = (req,res,next) => {
 function createEvents(week, classX, course){
     var event = {}
     var classDate = new Date(2023,0,9,parseInt(classX.Time.slice(0,2)),parseInt(classX.Time.slice(2,4)));
+    console.log(classDate)
     if(week>6)  //RECESS WEEK
         week++;
     classDate.setDate(classDate.getDate() + 7*week + classX.Day -1) // -1 because Monday starts on 1 not 0
