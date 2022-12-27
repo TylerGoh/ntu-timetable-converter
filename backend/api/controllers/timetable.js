@@ -12,16 +12,17 @@ exports.createCSV = (req,res,next) => {
 
 function createEvents(week, classX, course){
     var event = {}
-    var classDate = new Date(2023,0,9);
+    var classDate = new Date(2023,0,9,parseInt(classX.Time.slice(0,2)),parseInt(classX.Time.slice(2,4)));
     if(week>6)  //RECESS WEEK
         week++;
     classDate.setDate(classDate.getDate() + 7*week + classX.Day -1) // -1 because Monday starts on 1 not 0
+    classDate.setHours(classDate.getHours() - 8)
     event.start = [
         classDate.getFullYear(),
         classDate.getMonth()+1,
         classDate.getDate(),
-        parseInt(classX.Time.slice(0,2)),
-        parseInt(classX.Time.slice(2,4))]; //FORMAT IS [2018, 5, 30, 6, 30]
+        classDate.getHours(),
+        classDate.getMinutes()]; //FORMAT IS [2018, 5, 30, 6, 30]
     event.duration = parseTime(classX.Time);
     event.title = course.Course + " " + classX.ClassType;
     event.description = course.Title;
