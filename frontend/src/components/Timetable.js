@@ -23,9 +23,16 @@ function Timetable() {
         while(arr.length) 
             arr2D.push(arr.splice(0,16));
         var data = arr2D[0].map((_, colIndex) => arr2D.map(row => row[colIndex]));
-        axios.post( "/timetable", {data}).then(res=>{
-            let result = res.data;
-            console.log(result)
+        axios.post( "/timetable", {data},{responseType: "blob"}).then(res=>{
+            const href = URL.createObjectURL(res.data);
+            // create "a" HTML element with href to file & click
+            const link = document.createElement('a');
+            link.href = href;
+            link.setAttribute('download', 'timetable.ics'); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
         })
     }
     return(
