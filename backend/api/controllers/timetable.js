@@ -1,5 +1,4 @@
 const ics = require('ics')
-var stream = require('stream');
 
 exports.createCSV = (req,res,next) => {
     var data = parseTimetable(req.body.data);
@@ -23,7 +22,7 @@ function createEvents(week, classX, course){
         classDate.getMonth()+1,
         classDate.getDate(),
         classDate.getHours(),
-        classDate.getMinutes()]; //FORMAT IS [2018, 5, 30, 6, 30]
+        classDate.getMinutes()]; //FORMAT IS [YYYY, MM, DD, HH, MM]
     event.duration = parseTime(classX.Time);
     event.title = course.Course + " " + classX.ClassType;
     event.description = course.Title;
