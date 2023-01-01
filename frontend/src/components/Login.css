@@ -10,11 +10,11 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     mix-blend-mode: normal;
 }
 
-form {
+.login-form {
     background-color: white;
     box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
 }
 
-label{
+.login-label{
     float:left;
 }

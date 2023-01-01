@@ -1,0 +1,15 @@
+.timetable-form{
+    height:100vh;
+    justify-content: space-between;
+    padding:20px;
+}
+
+.timetable-textArea{
+    width:50%;
+    resize:none;
+    margin:auto;
+}
+
+.form-group{
+    padding-top:10px;
+}

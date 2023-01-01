@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import { useState } from "react";
 import axios from 'axios'
+import "./Timetable.css"
 
 function Timetable() {
     const [textInput, setTextInput] = useState("");
@@ -37,13 +38,18 @@ function Timetable() {
     }
     return(
         <div>
-            <Form onSubmit={handleSubmit}>
-                <Form.Control 
+            <Form onSubmit={handleSubmit} className="timetable-form">
+                <div className="form-group">
+                <Form.Control
+                    className="timetable-textArea"
                     id="textAreaInput"
                     as="textarea"
-                    rows={3}
+                    rows={1}
                     onChange={(e)=>setTextInput(e.target.value)}/>
-                <Button type="submit">Submit</Button>
+                </div>
+                <div className="form-group">
+                    <Button type="submit" style={{border:"20px"}}>Submit</Button>
+                </div>
             </Form>
         </div>
     )

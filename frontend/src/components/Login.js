@@ -35,9 +35,9 @@ function Login(){
 
     return(
         <div className='color-overlay d-flex justify-content-center align-items-center'>
-            <Form className='rounded form p-4 p-sm-3'>
+            <Form className='rounded login-form p-4 p-sm-3'>
                 <Form.Group className='mb-3' controlId='formUsername'>
-                    <Form.Label className='label'>Username</Form.Label>
+                    <Form.Label className='login-label'>Username</Form.Label>
                     <Form.Control 
                         type="username" 
                         placeholder='Enter username'
@@ -48,7 +48,7 @@ function Login(){
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className='mb-3' controlId='formPassword'>
-                    <Form.Label className='label'>Password</Form.Label>
+                    <Form.Label className='login-label'>Password</Form.Label>
                     <Form.Control 
                         type="password" 
                         placeholder='Enter password'
