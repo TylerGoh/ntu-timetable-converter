@@ -16,7 +16,7 @@ services:
       - "5000:5000"
     env_file: ./env/node-server-dev.env
     volumes:
-      - ./backend:/app
+      - ./backend/api:/app/api
   mongo:
     image: mongo
     volumes: 

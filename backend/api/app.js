@@ -16,8 +16,8 @@ let redisClient = createClient({
 } })
 redisClient.connect().catch(console.error)
 
-const userRoutes = require('./api/routes/user')
-const timetableRoutes = require('./api/routes/timetable')
+const userRoutes = require('./routes/user')
+const timetableRoutes = require('./routes/timetable')
 
 mongoose.set('strictQuery', false); //Just to stop the depreciation warnings
 mongoose.connect(URI, {

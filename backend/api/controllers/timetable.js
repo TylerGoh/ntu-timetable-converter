@@ -1,37 +1,35 @@
 const ics = require('ics')
 
 exports.createCSV = (req,res,next) => {
-    var data = parseTimetable(req.body.data);
-    var ics = generateICS(data)
+    var ics = createEvents(req.body.data);
     res.set("Content-Disposition", "attachment; filename=test.ics");
     res.set({'content-type': 'text/calendar; charset=utf-8'});
     res.end(ics)
 }
 
 
-function createEvents(week, classX, course){
-    var event = {}
-    var classDate = new Date(2023,0,9,parseInt(classX.Time.slice(0,2)),parseInt(classX.Time.slice(2,4)));
-    console.log(classDate)
+function createEvent(week, class_, course){
+    let event = {}
+    var class_date = new Date(2023,0,9,parseInt(class_.Time.slice(0,2)),parseInt(class_.Time.slice(2,4)));
     if(week>6)  //RECESS WEEK
-        week++;
-    classDate.setDate(classDate.getDate() + 7*week + classX.Day -1) // -1 because Monday starts on 1 not 0
-    classDate.setHours(classDate.getHours() - 8)
+    week++;
+    class_date.setDate(class_date.getDate() + 7*week + class_.Day) //Moving x amount of days from semester start
+    class_date.setHours(class_date.getHours() - 8) //To make it GMT +8
     event.start = [
-        classDate.getFullYear(),
-        classDate.getMonth()+1,
-        classDate.getDate(),
-        classDate.getHours(),
-        classDate.getMinutes()]; //FORMAT IS [YYYY, MM, DD, HH, MM]
-    event.duration = parseTime(classX.Time);
-    event.title = course.Course + " " + classX.ClassType;
+        class_date.getFullYear(),
+        class_date.getMonth()+1,
+        class_date.getDate(),
+        class_date.getHours(),
+        class_date.getMinutes()]; //FORMAT IS [YYYY, MM, DD, HH, MM]
+    event.duration = timeToDuration(class_.Time);
+    event.title = course.Course + " " + class_.ClassType;
     event.description = course.Title;
-    event.location = classX.Venue;
+    event.location = class_.Venue;
     return event;
     }
 
 
-function parseTime(time){
+function timeToDuration(time){
     var arr = time.split('to').map(function(time) {
         var hours   = parseInt(time.substr(0, 2), 10),
             minutes = parseInt(time.substr(2, 4), 10);
@@ -43,43 +41,22 @@ function parseTime(time){
     return {hours:hour, minutes:min}
 }
 
-
-function generateICS(data){
-    events = []
-    for(i in data){
-        course = data[i] //Extracts course details
-        for(x in course.Classes){
-            classX = course.Classes[x] //Avoid using class keyword
-            for(i in classX.Weeks){
-                week = classX.Weeks[i]
-                events.push(createEvents(week-1,classX,course)) //Week 1 -> 0 
-            } 
-        }
-    }
-    return ics.createEvents(events, (error, value) => {
-        if (error) {
-          return
-        }
-        return value
-    })
-
-}
-
-function parseDay(string){
+function formatDay(day){
+    day = day.replaceAll(' ', ''); //Some browsers add spaces
     const dayLookup = {
-        "Mon":1,
-        "Tue":2,
-        "Wed":3,
-        "Thu":4,
-        "Fri":5,
-        "Sat":6,
-        "Sun":7,
+        'Mon':0,
+        'Tue':1,
+        'Wed':2,
+        'Thu':3,
+        'Fri':4,
+        'Sat':5,
+        'Sun':6,
     }
-    return dayLookup[string]
+    return dayLookup[day]
     }
     
     
-    function parseRemark(string){
+function remarkToWeeks(string){
     string = string.slice(11)
     var temp = string.split(",")
     if(temp.length > 1)
@@ -98,55 +75,38 @@ function parseDay(string){
     
     }
     
-    function parseTimetable(data){
-    var fullData = [];
-    var tempObj = {};
-    var tempArr = [];
+function createEvents(data){
+    let events = [];
+    let course = {};
     for (var i in data[0]){
         if(i == 0)
         continue
-        if(data[0][i] != " " && i == 1){
-            tempObj["Course"]=data[0][i];
-            tempObj["Title"]=data[1][i];
-            tempObj["AU"]=data[2][i];
-            tempObj["S/U"]=data[3][i];
-            tempObj["Type"]=data[4][i];
-            tempObj["Index"]=data[5][i];
+        if(data[0][i] != " "){
+            course.Course=data[0][i];
+            course.Title=data[1][i];
+            course.AU=data[2][i];
+            course.SU=data[3][i];
+            course.Type=data[4][i];
+            course.Index=data[5][i];
         }
-        if(data[0][i] != " " && i != 1)
-        {
-            tempObj["Classes"]= tempArr // Pushes in all the classes collected before
-            fullData.push(tempObj)
-            tempObj = {}
-            tempArr = []
-            tempClasses = {}
-            tempObj["Course"]=data[0][i];
-            tempObj["Title"]=data[1][i];
-            tempObj["AU"]=data[2][i];
-            tempObj["S/U"]=data[3][i];
-            tempObj["Type"]=data[4][i];
-            tempObj["Index"]=data[5][i];
-            
-        }
-        tempArr.push({
+        let class_ = {
             "ClassType": data[9][i],
             "Group": data[10][i],
-            "Day": parseDay(data[11][i]),
+            "Day": formatDay(data[11][i]),
             "Time": data[12][i],
             "Venue": data[13][i],
-            "Weeks": parseRemark(data[14][i]),
-        })
+            "Weeks": remarkToWeeks(data[14][i]),
         }
-        tempObj["Classes"]= tempArr
-        fullData.push(tempObj)
-        tempObj = {}
-        tempArr = []
-        tempClasses = {}
-        tempObj["Course"]=data[0][i];
-        tempObj["Title"]=data[1][i];
-        tempObj["AU"]=data[2][i];
-        tempObj["S/U"]=data[3][i];
-        tempObj["Type"]=data[4][i];
-        tempObj["Index"]=data[5][i];
-    return fullData
+        //console.log(class_.Day)
+        for(i in class_.Weeks){
+            week = class_.Weeks[i]
+            events.push(createEvent(week-1,class_,course)) //Week 1 -> 0 
+        }
     }
+    return ics.createEvents(events, (error, value) => {
+        if (error) {
+          return
+        }
+        return value
+    })
+}
