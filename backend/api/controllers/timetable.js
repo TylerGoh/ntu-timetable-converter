@@ -1,16 +1,17 @@
 const ics = require('ics')
 
 exports.createCSV = (req,res,next) => {
-    var ics = createEvents(req.body.data);
+    var ics = createEvents(req.body.data,req.body.date);
     res.set("Content-Disposition", "attachment; filename=test.ics");
     res.set({'content-type': 'text/calendar; charset=utf-8'});
     res.end(ics)
 }
 
 
-function createEvent(week, class_, course){
+function createEvent(date, week, class_, course){
     let event = {}
-    var class_date = new Date(2023,0,9,parseInt(class_.Time.slice(0,2)),parseInt(class_.Time.slice(2,4)));
+    date = date.split("-");
+    var class_date = new Date(date[0],date[1],date[2],parseInt(class_.Time.slice(0,2)),parseInt(class_.Time.slice(2,4)));
     if(week>6)  //RECESS WEEK
     week++;
     class_date.setDate(class_date.getDate() + 7*week + class_.Day) //Moving x amount of days from semester start
@@ -75,7 +76,7 @@ function remarkToWeeks(string){
     
     }
     
-function createEvents(data){
+function createEvents(data,date){
     let events = [];
     let course = {};
     for (var i in data[0]){
@@ -100,7 +101,7 @@ function createEvents(data){
         //console.log(class_.Day)
         for(i in class_.Weeks){
             week = class_.Weeks[i]
-            events.push(createEvent(week-1,class_,course)) //Week 1 -> 0 
+            events.push(createEvent(date,week-1,class_,course)) //Week 1 -> 0 
         }
     }
     return ics.createEvents(events, (error, value) => {

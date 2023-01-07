@@ -5,11 +5,21 @@
 }
 
 .timetable-textArea{
-    width:50%;
+    width:100%;
     resize:none;
     margin:auto;
 }
 
 .form-group{
     padding-top:10px;
+}
+
+.form-grid-container{
+    display:grid;
+    grid-template-columns: 2fr 1fr;
+    grid-column-gap: 20px;
+}
+
+.form-grid-item{
+    display:inline-grid;
 }

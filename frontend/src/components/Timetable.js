@@ -7,7 +7,7 @@ import "./Timetable.css"
 
 function Timetable() {
     const [textInput, setTextInput] = useState("");
-
+    const [date, setDateInput] = useState(new Date());
     const handleSubmit = (e)=>{
         e.preventDefault();
         var text = textInput;
@@ -24,7 +24,7 @@ function Timetable() {
         while(arr.length) 
             arr2D.push(arr.splice(0,16));
         var data = arr2D[0].map((_, colIndex) => arr2D.map(row => row[colIndex]));
-        axios.post( "/timetable", {data},{responseType: "blob"}).then(res=>{
+        axios.post( "/timetable", {data,date},{responseType: "blob"}).then(res=>{
             const href = URL.createObjectURL(res.data);
             // create "a" HTML element with href to file & click
             const link = document.createElement('a');
@@ -39,16 +39,32 @@ function Timetable() {
     return(
         <div>
             <Form onSubmit={handleSubmit} className="timetable-form">
-                <div className="form-group">
-                <Form.Control
-                    className="timetable-textArea"
-                    id="textAreaInput"
-                    as="textarea"
-                    rows={1}
-                    onChange={(e)=>setTextInput(e.target.value)}/>
-                </div>
-                <div className="form-group">
-                    <Button type="submit" style={{border:"20px"}}>Submit</Button>
+                <div className="form-grid-container">
+                    <div className="form-grid-item">
+                        <div className="form-group">
+                        <Form.Label>Paste timetable:</Form.Label>
+                        <Form.Control
+                            className="timetable-textArea"
+                            id="textAreaInput"
+                            as="textarea"
+                            rows={1}
+                            onChange={(e)=>setTextInput(e.target.value)}/>
+                        </div>
+                        <div className="form-group">
+                            <Button type="submit" style={{border:"20px"}}>Submit</Button>
+                        </div>
+                    </div>
+                    <div className="form-grid-item">
+                        <div className="form-group">
+                        <Form.Label>Semester start date:</Form.Label>
+                        <Form.Control
+                            type="date"
+                            value={date}
+                            onChange={(e)=>setDateInput(e.target.value)}/>
+                        </div>
+                    </div>
+                    
+
                 </div>
             </Form>
         </div>
