@@ -11,7 +11,7 @@ exports.createCSV = (req,res,next) => {
 function createEvent(date, week, class_, course){
     let event = {}
     date = date.split("-");
-    var class_date = new Date(date[0],date[1],date[2],parseInt(class_.Time.slice(0,2)),parseInt(class_.Time.slice(2,4)));
+    var class_date = new Date(date[0],date[1]-1,date[2],parseInt(class_.Time.slice(0,2)),parseInt(class_.Time.slice(2,4)));
     if(week>6)  //RECESS WEEK
     week++;
     class_date.setDate(class_date.getDate() + 7*week + class_.Day) //Moving x amount of days from semester start
